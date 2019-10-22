@@ -17,7 +17,7 @@ resources:
     url: /local/mbta-card.js
 ```
 
-Set up the visualisations for the MBTA sensors. [link to set up the sensors]()
+Set up the visualisations for the MBTA sensors. (the sensors must already be [set up](https://github.com/dhanani94/mbta_predictions))
 
 example `ui-lovelace.yaml` card: 
 
