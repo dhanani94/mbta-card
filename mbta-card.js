@@ -58,7 +58,7 @@ class MBTACard extends HTMLElement {
             let limit = entity_dict["limit"];
             let attr = sensor["attributes"];
             let direction = attr['direction'];
-            let route = attr['route'].toLowerCase();
+            let route_css = attr['route'].toLowerCase().split("-")[0]
             let stop = attr['stop'];
             let state = sensor['state'];
             state = state.replace("[", "");
@@ -73,7 +73,7 @@ class MBTACard extends HTMLElement {
                     tablehtml += `
                                 <tr>
                                     <td class="shrink" style="text-align:center;"><img width="20px" src="${icon_path}">
-                                        <span class="line ${route}"></span>
+                                        <span class="line ${route_css}"></span>
                                     </td>
                                     <td class="expand">${stop} to ${direction}</td>
                                     <td class="shrink" style="text-align:right;">${eta_str}</td>
