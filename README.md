@@ -1,7 +1,7 @@
 # mbta-card
 This card shows predictions for a [MBTA prediction sensor](https://github.com/dhanani94/mbta_predictions). 
 
-![example](./images/example.png)
+![example](./images/example.png | width=100)
 
 ## Installation
 The custom card code is located [here](/mbta-card.js). Copying the `mbta-card.js` file into the `<config directory>/www/mbta-card.js` directory (alongside the `configuration.yml` file) for users using HASSIO. 
