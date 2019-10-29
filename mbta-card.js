@@ -62,11 +62,7 @@ class MBTACard extends HTMLElement {
             let limit = entity_dict["limit"];
             let attr = sensor["attributes"];
             let direction = attr['direction'];
-            if (["red", "orange", "green", "blue"].includes(attr['route'].toLowerCase())) {
-                let route = attr['route'].toLowerCase();
-            } else {
-                let route = "commuter";
-            }
+            let route = (["red", "orange", "green", "blue"].includes(attr['route'].toLowerCase())) ? attr['route'].toLowerCase() : "commuter";
             let stop = attr['stop'];
             let state = sensor['state'];
             state = state.replace("[", "");
