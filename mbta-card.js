@@ -46,6 +46,10 @@ class MBTACard extends HTMLElement {
 
         span.blue {
             background-color: #003da5;
+        }
+
+        span.commuter {
+            background-color: #80276c;
         }`;
             card.appendChild(style);
             card.appendChild(this.content);
@@ -58,7 +62,11 @@ class MBTACard extends HTMLElement {
             let limit = entity_dict["limit"];
             let attr = sensor["attributes"];
             let direction = attr['direction'];
-            let route = attr['route'].toLowerCase();
+            if (["red", "orange", "green", "blue"].includes(attr['route'].toLowerCase())) {
+                let route = attr['route'].toLowerCase();
+            } else {
+                let route = "commuter";
+            }
             let stop = attr['stop'];
             let state = sensor['state'];
             state = state.replace("[", "");
