@@ -60,29 +60,32 @@ class MBTACard extends HTMLElement {
             let sensor = hass.states[entity_dict["entity"]];
             let offset_minutes = entity_dict["offset_minutes"];
             let limit = entity_dict["limit"];
+            
             let attr = sensor["attributes"];
-            let direction = attr['direction'];
-            let route = (["red", "orange", "green", "blue"].includes(attr['route'].toLowerCase())) ? attr['route'].toLowerCase() : "commuter";
-            let stop = attr['stop'];
-            let state = sensor['state'];
-            state = state.replace("[", "");
-            state = state.replace("]", "");
-            state = state.replace(new RegExp("'", 'g'), "");
-            state = state.replace(new RegExp('"', 'g'), "");
-            state = state.split(",");
+            let depart_from = attr['depart_from'];
+            let arrive_at = attr['arrive_at'];
+            let route = attr['route'].toLowerCase();
+            let css_route = (["red", "orange", "green", "blue"].includes(route)) ? route : "commuter";
+
+            let stop_array = []
+            stop_array.push([sensor['state'], attr['delay']])
+            JSON.parse(attr['upcoming_departures']).forEach(upcoming => {
+                stop_array.push([upcoming['departure'], upcoming['delay']])
+            });
+
             let counter = 0;
-            state.forEach(function (eta_str) {
+            stop_array.forEach(function (stop) {
+                let [eta_str, delay_str] = stop;
                 let minutes = eta_str.includes("m ") ? parseInt(eta_str.split("m ")[0]) : 0;
                 if (counter < limit && minutes >= offset_minutes) {
                     tablehtml += `
                                 <tr>
                                     <td class="shrink" style="text-align:center;"><img width="20px" src="${icon_path}">
-                                        <span class="line ${route}"></span>
+                                        <span class="line ${css_route}"></span>
                                     </td>
-                                    <td class="expand">${stop} to ${direction}</td>
-                                    <td class="shrink" style="text-align:right;">${eta_str}</td>
-                                </tr>
-                            `;
+                                    <td class="expand">${depart_from} to ${arrive_at}</td>
+                                    <td class="shrink" style="text-align:right;">${eta_str} ${(delay_str !== null) ? `(${delay_str} delayed)` : ``} </td>
+                                    </tr>`;
                     counter++;
                 }
             });
