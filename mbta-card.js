@@ -30,26 +30,6 @@ class MBTACard extends HTMLElement {
             margin-left: 0.2em;
             margin-right: 0.2em;
             border-radius: 999px;
-        }
-
-        span.red {
-            background-color: #da291c;
-        }
-
-        span.orange {
-            background-color: #ed8b00;
-        }
-
-        span.green {
-            background-color: #00843d;
-        }
-
-        span.blue {
-            background-color: #003da5;
-        }
-
-        span.commuter {
-            background-color: #80276c;
         }`;
             card.appendChild(style);
             card.appendChild(this.content);
@@ -64,8 +44,8 @@ class MBTACard extends HTMLElement {
             let attr = sensor["attributes"];
             let depart_from = attr['depart_from'];
             let arrive_at = attr['arrive_at'];
-            let route = attr['route'].toLowerCase();
-            let css_route = (["red", "orange", "green", "blue"].includes(route)) ? route : "commuter";
+            let route_color = attr['route_color'].toLowerCase();
+            let route_type = attr['route_color'].toLowerCase(); //dynamic icons?
 
             let stop_array = []
             stop_array.push([sensor['state'], attr['delay']])
@@ -81,7 +61,7 @@ class MBTACard extends HTMLElement {
                     tablehtml += `
                                 <tr>
                                     <td class="shrink" style="text-align:center;"><img width="20px" src="${icon_path}">
-                                        <span class="line ${css_route}"></span>
+                                        <span class="line" style="background-color: #${route_color}"></span>
                                     </td>
                                     <td class="expand">${depart_from} to ${arrive_at}</td>
                                     <td class="shrink" style="text-align:right;">${eta_str} ${(delay_str !== null) ? `(${delay_str} delayed)` : ``} </td>
