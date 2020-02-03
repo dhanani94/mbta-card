@@ -51,7 +51,9 @@ example `ui-lovelace.yaml` card:
 
 * Add support for buses 
 * Create custom compnent in HACS 
-* [Buy me coffee?](https://www.buymeacoffee.com/dhanani94)
+
+* [Buy dhanani94 coffee?](https://www.buymeacoffee.com/dhanani94)
+* [Buy MikeFez coffee?](https://www.buymeacoffee.com/MikeFez)
 
 ## inspirations
 

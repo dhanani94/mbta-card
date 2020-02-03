@@ -30,26 +30,6 @@ class MBTACard extends HTMLElement {
             margin-left: 0.2em;
             margin-right: 0.2em;
             border-radius: 999px;
-        }
-
-        span.red {
-            background-color: #da291c;
-        }
-
-        span.orange {
-            background-color: #ed8b00;
-        }
-
-        span.green {
-            background-color: #00843d;
-        }
-
-        span.blue {
-            background-color: #003da5;
-        }
-
-        span.commuter {
-            background-color: #80276c;
         }`;
             card.appendChild(style);
             card.appendChild(this.content);
@@ -60,29 +40,32 @@ class MBTACard extends HTMLElement {
             let sensor = hass.states[entity_dict["entity"]];
             let offset_minutes = entity_dict["offset_minutes"];
             let limit = entity_dict["limit"];
+            
             let attr = sensor["attributes"];
-            let direction = attr['direction'];
-            let route = (["red", "orange", "green", "blue"].includes(attr['route'].toLowerCase())) ? attr['route'].toLowerCase() : "commuter";
-            let stop = attr['stop'];
-            let state = sensor['state'];
-            state = state.replace("[", "");
-            state = state.replace("]", "");
-            state = state.replace(new RegExp("'", 'g'), "");
-            state = state.replace(new RegExp('"', 'g'), "");
-            state = state.split(",");
+            let depart_from = attr['depart_from'];
+            let arrive_at = attr['arrive_at'];
+            let route_color = attr['route_color'].toLowerCase();
+            let route_type = attr['route_color'].toLowerCase(); //dynamic icons?
+
+            let stop_array = []
+            stop_array.push([sensor['state'], attr['delay']])
+            JSON.parse(attr['upcoming_departures']).forEach(upcoming => {
+                stop_array.push([upcoming['departure'], upcoming['delay']])
+            });
+
             let counter = 0;
-            state.forEach(function (eta_str) {
+            stop_array.forEach(function (stop) {
+                let [eta_str, delay_str] = stop;
                 let minutes = eta_str.includes("m ") ? parseInt(eta_str.split("m ")[0]) : 0;
                 if (counter < limit && minutes >= offset_minutes) {
                     tablehtml += `
                                 <tr>
                                     <td class="shrink" style="text-align:center;"><img width="20px" src="${icon_path}">
-                                        <span class="line ${route}"></span>
+                                        <span class="line" style="background-color: #${route_color}"></span>
                                     </td>
-                                    <td class="expand">${stop} to ${direction}</td>
-                                    <td class="shrink" style="text-align:right;">${eta_str}</td>
-                                </tr>
-                            `;
+                                    <td class="expand">${depart_from} to ${arrive_at}</td>
+                                    <td class="shrink" style="text-align:right;">${eta_str} ${(delay_str !== null) ? `(${delay_str} delayed)` : ``} </td>
+                                    </tr>`;
                     counter++;
                 }
             });
