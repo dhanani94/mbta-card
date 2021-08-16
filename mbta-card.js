@@ -3,7 +3,7 @@ class MBTACard extends HTMLElement {
         const icon_path = this.config.icon;
         if (!this.content) {
             const card = document.createElement('ha-card');
-            card.header = name;
+            card.header = this.config.name;
             this.content = document.createElement('div');
             const style = document.createElement('style');
             style.textContent = `
