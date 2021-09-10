@@ -38,14 +38,16 @@ example `ui-lovelace.yaml` card:
 ```
 
 ### Configuration Variables
-#### entity
-> (string) (Required) the entity name of the sensor
-#### offset_minutes
-> (int) (Optional) the minimum minutes remaining before arrival (default: 0)
-#### limit
-> (int) (Optional) the maximum number of predictions to display (default: 10)
-#### icon
+#### Card
+##### icon
 > (path) (Required) location of the [T logo](./images/MBTA.png)
+#### Entities
+##### entity
+> (string) (Required) the entity name of the sensor
+##### offset_minutes
+> (int) (Required) the minimum minutes remaining before arrival (default: 0)
+##### limit
+> (int) (Required) the maximum number of predictions to display (default: 10)
 
 ## Future Plans 
 
